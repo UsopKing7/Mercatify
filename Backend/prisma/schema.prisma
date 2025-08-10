@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  CANCELED
+}
+
+model User {
+  id_user     String      @id @default(uuid()) @map("id_user")
+  name        String
+  email       String      @unique
+  password    String
+  role        Role        @default(USER)
+  cart        Cart?
+  orders      Order[]
+  tokens      Token[]
+  created_at  DateTime    @default(now()) @map("created_at")
+  updated_at  DateTime    @updatedAt       @map("updated_at")
+}
+
+model Product {
+  id_product   String      @id @default(uuid()) @map("id_product")
+  name         String
+  description  String
+  price        Float
+  stock        Int
+  categories   Category[]
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+  created_at   DateTime    @default(now()) @map("created_at")
+  updated_at   DateTime    @updatedAt      @map("updated_at")
+}
+
+model Category {
+  id_category  String      @id @default(uuid()) @map("id_category")
+  name         String
+  products     Product[]
+  created_at   DateTime    @default(now()) @map("created_at")
+  updated_at   DateTime    @updatedAt      @map("updated_at")
+}
+
+model Cart {
+  id_cart     String    @id @default(uuid()) @map("id_cart")
+  user        User      @relation(fields: [id_user], references: [id_user])
+  id_user     String    @unique
+  items       CartItem[]
+  created_at  DateTime  @default(now()) @map("created_at")
+  updated_at  DateTime  @updatedAt      @map("updated_at")
+}
+
+model CartItem {
+  id_cart_item String    @id @default(uuid()) @map("id_cart_item")
+  cart         Cart      @relation(fields: [id_cart], references: [id_cart])
+  id_cart      String
+  product      Product   @relation(fields: [id_product], references: [id_product])
+  id_product   String
+  quantity     Int
+  created_at   DateTime  @default(now()) @map("created_at")
+  updated_at   DateTime  @updatedAt      @map("updated_at")
+
+  @@unique([id_cart, id_product])
+}
+
+model Order {
+  id_order    String      @id @default(uuid()) @map("id_order")
+  user        User        @relation(fields: [id_user], references: [id_user])
+  id_user     String
+  status      OrderStatus @default(PENDING)
+  total       Float
+  items       OrderItem[]
+  created_at  DateTime    @default(now()) @map("created_at")
+  updated_at  DateTime    @updatedAt      @map("updated_at")
+}
+
+model OrderItem {
+  id_order_item String   @id @default(uuid()) @map("id_order_item")
+  order         Order    @relation(fields: [id_order], references: [id_order])
+  id_order      String
+  product       Product  @relation(fields: [id_product], references: [id_product])
+  id_product    String
+  quantity      Int
+  unit_price    Float    @map("unit_price") // price snapshot
+  created_at    DateTime @default(now())    @map("created_at")
+  updated_at    DateTime @updatedAt         @map("updated_at")
+
+  @@unique([id_order, id_product])
+}
+
+model Token {
+  id_token    String    @id @default(uuid()) @map("id_token")
+  user        User      @relation(fields: [id_user], references: [id_user])
+  id_user     String
+  token       String    @unique
+  created_at  DateTime  @default(now()) @map("created_at")
+}
+

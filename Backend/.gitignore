@@ -1,0 +1,31 @@
+# Keep environment variables out of version control
+.env
+node_modules
+
+/src/generated/prisma
+dist/
+buildcache/
+prisma/migrations/*
+# Ignore IDE specific files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+# Ignore coverage reports
+coverage/
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+# Ignore Docker files
+docker-compose.override.yml
+Dockerfile
+# Ignore build artifacts
+*.tgz
+*.zip
+*.tar.gz
