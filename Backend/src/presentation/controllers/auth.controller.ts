@@ -5,6 +5,7 @@ import { Request, Response } from 'express'
 import { errorFormat } from '../../shared/utils/format-error.utils'
 import { RegisterUserUseCase } from '../../application/use-cases/register-user.usecase'
 import { generateToken } from '../../infrastructure/auth/token.auth'
+import { RequesHttpError } from '../errors/estate-code.error'
 
 const userRepo = new PrismaUserRepository()
 const loginUserUseCase = new LoginUserUseCase(userRepo)
@@ -13,7 +14,7 @@ export const login = async (req: Request, res: Response) => {
   try {
     const response = loginSchema.safeParse(req.body)
   
-    if(!response.success) throw response.error.message
+    if(!response.success) throw errorFormat(response.error.message)
   
     const { email, password } = response.data
     const result = await loginUserUseCase.execute({ email, password })
@@ -29,10 +30,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(200).json(result)
     
   } catch (error) {
-    return res.status(400).json({
-      message: 'Algo salio mal',
-      error: errorFormat(error)
-    })
+    throw new RequesHttpError(400, 'algo salio mal')
   }
 }
 
@@ -49,9 +47,6 @@ export const register = async (req: Request, res: Response) => {
 
     return res.status(201).json(result)
   } catch (error) {
-    return res.status(400).json({
-      message: 'Algo salio mal',
-      error: errorFormat(error)
-    })
+    throw new RequesHttpError(400, 'algo salio mal')
   }
 }
