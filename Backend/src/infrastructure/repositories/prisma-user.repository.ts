@@ -12,6 +12,7 @@ export class PrismaUserRepository implements IUserRepository {
     if (!user) return null
 
     return new User(
+      user.id_user,
       user.name,
       user.email,
       user.password
@@ -29,6 +30,7 @@ export class PrismaUserRepository implements IUserRepository {
     if (!user) throw new UserCredentialsError()
 
     return new User(
+      user.id_user,
       user.name,
       user.email,
       user.password

@@ -6,14 +6,14 @@ import { LoginDTO } from '../interfaces/credentias.interface'
 export class LoginUserUseCase {
   constructor (private readonly userRepository: IUserRepository) {}
   
-  async execute ({ email, password, id_user }: LoginDTO) {
+  async execute ({ email, password }: LoginDTO) {
     const user = await this.userRepository.findByEmail(email)
     if(!user) throw new UserCredentialsError()
 
     const isPasswordCorrect = await user.comparePassword(password)
     if (!isPasswordCorrect) throw new UserCredentialsError()
 
-    generateToken({ id_user: id_user as string, email: user.email })
+    generateToken({ id_user: user.id_user as string, email: user.email })
 
     return { user: {
       id_user: user.id_user,
