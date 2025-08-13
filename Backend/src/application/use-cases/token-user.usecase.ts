@@ -1,6 +1,6 @@
 import { ITokenRepository } from '../../domain/repositories/token.repository'
 // import { TokenExistsError } from '../errors/token.errors'
-import { TokenDTO } from '../interfaces/token.intercafe'
+import { TokenDTO } from '../dto/token.intercafe'
 
 export class TokenUserUseCase {
   constructor (private readonly tokenRepository: ITokenRepository) {}

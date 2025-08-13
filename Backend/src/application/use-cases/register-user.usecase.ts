@@ -1,6 +1,6 @@
 import { IUserRepository } from '../../domain/repositories/user.repository'
 import { UserExistsError } from '../errors/user.errors'
-import { RegisterDTO } from '../interfaces/credentias.interface'
+import { RegisterDTO } from '../dto/credentias.interface'
 
 export class RegisterUserUseCase {
   constructor (private readonly userRepository: IUserRepository) {}

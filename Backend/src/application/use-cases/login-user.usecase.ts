@@ -1,7 +1,7 @@
 import { IUserRepository } from '../../domain/repositories/user.repository'
 import { UserCredentialsError } from '../errors/user.errors'
 import { generateToken } from '../../infrastructure/auth/token.auth'
-import { LoginDTO } from '../interfaces/credentias.interface'
+import { LoginDTO } from '../dto/credentias.interface'
 
 export class LoginUserUseCase {
   constructor (private readonly userRepository: IUserRepository) {}

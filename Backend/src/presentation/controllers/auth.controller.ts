@@ -8,12 +8,17 @@ import { generateToken } from '../../infrastructure/auth/token.auth'
 import { RequesHttpError } from '../errors/estate-code.error'
 import { PrismaTokenRepository } from '../../infrastructure/repositories/prisma-token.repositoy'
 import { TokenUserUseCase } from '../../application/use-cases/token-user.usecase'
+import { CartUserUseCase } from '../../application/use-cases/cart-user.usecase'
+import { PrismaCartRepository } from '../../infrastructure/repositories/prisma.cart.repository'
 
 const userRepo = new PrismaUserRepository()
 const loginUserUseCase = new LoginUserUseCase(userRepo)
 
 const tokenRepo = new PrismaTokenRepository()
 const loginUserCaseWithToken = new TokenUserUseCase(tokenRepo)
+
+const cartRepo = new PrismaCartRepository()
+const cartUserUseCase = new CartUserUseCase(cartRepo)
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -26,6 +31,7 @@ export const login = async (req: Request, res: Response) => {
     const token = generateToken({ id_user: result.user.id_user as string, email: result.user.email })
 
     await loginUserCaseWithToken.execute({ id_user: result.user.id_user as string, token })
+    const cart = await cartUserUseCase.execute({ id_user: result.user.id_user })
 
     res.cookie('access_token', token, {
       httpOnly: true,
@@ -34,7 +40,7 @@ export const login = async (req: Request, res: Response) => {
       maxAge: 7 * 24 * 60 * 60 * 1000 // => 7 days
     })
   
-    return res.status(200).json(result)
+    return res.status(200).json({ result, cart })
     
   } catch (error) {
     console.log(errorFormat(error))
