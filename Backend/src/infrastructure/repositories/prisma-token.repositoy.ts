@@ -16,7 +16,8 @@ export class PrismaTokenRepository implements ITokenRepository {
   }
 
   async create(tokenData: { id_user: string; token: string; }): Promise<Token> {
-    const addToken = await tokenDatabase.addToken({ id_user: tokenData.id_user, token: tokenData.token})
+    const { id_user, token } = tokenData
+    const addToken = await tokenDatabase.addToken({ id_user, token })
 
     if (!addToken) throw new TokenError('Error creating token')
 
