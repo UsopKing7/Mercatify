@@ -12,5 +12,9 @@ export const ProductDatabase = {
         stock: stock
       }
     })
+  },
+  
+  findProducts: async () => {
+    return await prisma.product.findMany()
   }
 }

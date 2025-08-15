@@ -19,4 +19,14 @@ export class ProductUseCase {
       }
     }
   }
+
+  async findProducts() {
+    const products = await this.productRepository.findProducts()
+
+    return {
+      products: {
+        products
+      }
+    }
+  }
 }
