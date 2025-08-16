@@ -5,4 +5,5 @@ export interface IProductRepository {
     name: string, description: string, price: number, stock: number 
   }): Promise<Product | null>
   findProducts(): Promise<Product[]>
+  deleteProduct(id_product: string): Promise<void>
 }

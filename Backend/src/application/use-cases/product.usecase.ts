@@ -1,5 +1,6 @@
 import { IProductRepository } from '../../domain/repositories/product.repository'
 import { ProductDTO } from '../dto/Products.dto'
+import { ProductsNotFoundError } from '../errors/procuct.errors'
 
 export class ProductUseCase {
   constructor(private readonly productRepository: IProductRepository) {}
@@ -23,10 +24,17 @@ export class ProductUseCase {
   async findProducts() {
     const products = await this.productRepository.findProducts()
 
+    if (!products || products.length == 0) throw new ProductsNotFoundError()
     return {
-      products: {
         products
-      }
+    }
+  }
+  
+  async deleteProduct(id_product: string) {
+    await this.productRepository.deleteProduct(id_product)
+
+    return {
+      message: 'Product deleted successfully'  
     }
   }
 }

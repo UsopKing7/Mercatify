@@ -27,9 +27,6 @@ export const createProduct = async (req: Request, res: Response) => {
   }
 }
 
-const prodctsRepo = new PrismaProductRepository()
-const productsUseCase = new ProductUseCase(prodctsRepo)
-
 export const getProducts = async (_req: Request, res: Response) => {
   try {
     const key = 'products'
@@ -42,12 +39,23 @@ export const getProducts = async (_req: Request, res: Response) => {
         products: productsCache
       })
     }
-    const products = await productsUseCase.findProducts()
+    const products = await productUseCase.findProducts()
     const { value, expire } = saveCache(products)
 
     await redis.set(key, value, expire)
 
     return res.status(200).json(products)
+  } catch (error) {
+    throw new RequesHttpError(400, 'Algo salio mal')
+  }
+}
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { id_product } = req.params
+    const deleteProduct = await productUseCase.deleteProduct(id_product)
+
+    return res.status(200).json(deleteProduct)
   } catch (error) {
     throw new RequesHttpError(400, 'Algo salio mal')
   }

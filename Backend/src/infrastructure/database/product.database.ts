@@ -16,5 +16,11 @@ export const ProductDatabase = {
   
   findProducts: async () => {
     return await prisma.product.findMany()
+  },
+
+  deletePorduct: async (id_product: string) => {
+    return await prisma.product.delete({
+      where: { id_product }
+    })
   }
 }

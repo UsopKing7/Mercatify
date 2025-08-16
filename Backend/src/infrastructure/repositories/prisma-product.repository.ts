@@ -36,4 +36,19 @@ export class PrismaProductRepository implements IProductRepository {
       product.stock
     ))
   }
+  
+  async deleteProduct(id_product: string): Promise<void> {
+    const productExiste = await ProductDatabase.deletePorduct(id_product)
+
+    if (!productExiste) throw new ProductsNotFoundError()
+
+    new Product(
+      productExiste.id_product,
+      productExiste.name,
+      productExiste.description,
+      productExiste.price,
+      productExiste.stock
+    )
+    return
+  }
 }
