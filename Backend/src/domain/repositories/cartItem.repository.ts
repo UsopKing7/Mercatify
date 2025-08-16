@@ -1,4 +1,4 @@
-import { CartItem } from '../entities/CartItem'
+import { CartItem } from '../entities/CartItem.entity'
 
 export interface CartItemRepository {
   createCartItem(cartItemData: { id_cart: string, id_product: string, quantity: number }): Promise<CartItem | null>
