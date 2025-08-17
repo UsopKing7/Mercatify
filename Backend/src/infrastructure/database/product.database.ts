@@ -22,5 +22,11 @@ export const ProductDatabase = {
     return await prisma.product.delete({
       where: { id_product }
     })
+  },
+
+  findProductById: async (id_product: string) => {
+    return await prisma.product.findUnique({
+      where: { id_product }
+    })
   }
 }

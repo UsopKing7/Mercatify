@@ -11,3 +11,17 @@ export class ProductsNotFoundError extends Error {
     this.name = 'ProductsNotFoundError'
   }
 }
+
+export class ProductNotExistsError extends Error {
+  constructor() {
+    super('Product not exists')
+    this.name = 'ProductNotExistsError'
+  }
+}
+
+export class InsufficientStockError extends Error {
+  constructor() {
+    super('La cantidad solicitada es mayor al stock disponible')
+    this.name = 'InsufficientStockError'
+  }
+}
