@@ -34,5 +34,32 @@ export const orderDatabase = {
       where: { id_user },
       include: { items: { include: { product: true } } }
     })
+  },
+
+  updateStatusShipped: async (id_order: string) => {
+    return await prisma.order.update({
+      where: { id_order },
+      data: {
+        status: 'SHIPPED'
+      }
+    })
+  },
+
+  updateStatusPaid: async (id_order: string) => {
+    return await prisma.order.update({
+      where: { id_order },
+      data: {
+        status: 'PAID'
+      }
+    })
+  },
+
+  updateStatusCancelled: async (id_order: string) => {
+    return await prisma.order.update({
+      where: { id_order },
+      data: {
+        status: 'CANCELED'
+      }
+    })
   }
 }

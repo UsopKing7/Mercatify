@@ -43,3 +43,39 @@ export const getOrders = async (req: Request, res: Response) => {
     throw new RequesHttpError(400, 'Algo salio mal')   
   }
 }
+
+export const shippedOrder = async (req: Request, res: Response) => {
+  try {
+    const { id_order } = req.params
+
+    const shippedOrder = await orderUseCase.updateStatusShipped(id_order)
+
+    return res.status(200).json(shippedOrder)
+  } catch (error) {
+    throw new RequesHttpError(400, 'Algo salio mal')
+  }
+}
+
+export const deleteOrder = async (req: Request, res: Response) => {
+  try {
+    const { id_order } = req.params
+
+    const deleteOrder = await orderUseCase.updateStatusCancelled(id_order)
+
+    return res.status(200).json(deleteOrder)
+  } catch (error) {
+    throw new RequesHttpError(400, 'Algo salio mal')   
+  }
+}
+
+export const paidOrder = async (req: Request, res: Response) => {
+  try {
+    const { id_order } = req.params
+
+    const paidOrder = await orderUseCase.updateStatusPaid(id_order)
+
+    return res.status(200).json(paidOrder)
+  } catch (error) {
+    throw new RequesHttpError(400, 'Algo salio mal')
+  }
+}

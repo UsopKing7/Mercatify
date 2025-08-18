@@ -20,4 +20,25 @@ export class OrderUseCase {
       orders
     }
   }
+
+  async updateStatusShipped(id_order: string) {
+    const SHIPPED = await this.orderRepository.updateStatusShipped(id_order)
+    return {
+      SHIPPED
+    }
+  }
+
+  async updateStatusPaid(id_order: string) {
+    const PAID = await this.orderRepository.updateStatusPaid(id_order)
+    return {
+      PAID
+    }
+  }
+
+  async updateStatusCancelled(id_order: string) {
+    const CANCELED = await this.orderRepository.updateStatusCancelled(id_order)
+    return {
+      CANCELED
+    }
+  }
 }

@@ -14,21 +14,21 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      - redis
     command: ["./command.sh"]
   
-  db:
-    image: postgres:15
-    container_name: mercatify_psql
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mercatify_backend
-    volumes:
-      - pgdata:/var/lib/postgres/data
-    ports:
-      - 5433:5432
+  # db:
+  #   image: postgres:15
+  #   container_name: mercatify_psql
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: root
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: mercatify_backend
+  #   volumes:
+  #     - pgdata:/var/lib/postgres/data
+  #   ports:
+  #     - 5433:5432
 
 volumes:
   redisdata:

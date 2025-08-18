@@ -27,4 +27,24 @@ export class PrismaOrderRepository implements IOrderRepository {
       order.total
     ))
   }
+
+  async updateStatusShipped(id_order: string): Promise<void> {
+    const SHIPPED = await orderDatabase.updateStatusShipped(id_order)
+    if (!SHIPPED) return
+
+    return
+  }
+
+  async updateStatusPaid(id_order: string): Promise<void> {
+    const PAID = await orderDatabase.updateStatusPaid(id_order)
+    if (!PAID) return
+
+    return
+  }
+
+  async updateStatusCancelled(id_order: string): Promise<void> {
+    const CANCELED = await orderDatabase.updateStatusCancelled(id_order)
+    if (!CANCELED) return
+    
+  }
 }
