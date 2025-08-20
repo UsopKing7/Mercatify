@@ -15,6 +15,7 @@ export class PrismaUserRepository implements IUserRepository {
       user.id_user,
       user.name,
       user.email,
+      user.role,
       user.password
     )
   }
@@ -33,6 +34,21 @@ export class PrismaUserRepository implements IUserRepository {
       user.id_user,
       user.name,
       user.email,
+      user.role,
+      user.password
+    )
+  }
+
+  async findUserById(id_user: string): Promise<User | null> {
+    const user = await authDatabase.findUserById(id_user)
+
+    if (!user) return null
+
+    return new User(
+      user.id_user,
+      user.name,
+      user.email,
+      user.role,
       user.password
     )
   }

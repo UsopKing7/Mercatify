@@ -15,5 +15,11 @@ export const authDatabase = {
         password: userdata.password
       }
     })
+  },
+
+  findUserById: async (id_user: string) => {
+    return await prisma.user.findUnique({
+      where: { id_user }
+    })
   }
 }
