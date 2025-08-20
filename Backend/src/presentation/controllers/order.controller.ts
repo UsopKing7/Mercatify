@@ -19,6 +19,8 @@ export const createOrder = async (req: Request, res: Response) => {
 
     const order = await orderUseCase.createOrder(id_user)
 
+    if (order.order.newOrder?.total === 0) throw new RequesHttpError(400, 'No se puede crear una orden sin productos')
+
     return res.status(201).json(order)
 
   } catch (error) {

@@ -55,7 +55,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const { id_product } = req.params
     const deleteProduct = await productUseCase.deleteProduct(id_product)
 
-    return res.status(200).json(deleteProduct)
+    return res.status(200).json(deleteProduct.message)
   } catch (error) {
     throw new RequesHttpError(400, 'Algo salio mal')
   }
