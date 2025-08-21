@@ -11,6 +11,8 @@ export const createCartItem = async (req: Request, res: Response) => {
   try {
     const { id_cart, id_product } = req.params
     const response = cartItemSchema.safeParse(req.body)
+    const extraFields = Object.keys(req.body).filter(key => key !== 'quantity')
+    if (extraFields.length > 0) throw new RequesHttpError(400, 'Algo salio mal')
 
     if (!response.success) throw response.error.message
 
