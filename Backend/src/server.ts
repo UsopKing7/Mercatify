@@ -5,6 +5,7 @@ import { cartItemRouter } from './presentation/routes/cartItem.routes'
 import { orderRouter } from './presentation/routes/orders.routes'
 import { categoryRouter } from './presentation/routes/category.routes'
 import cookieParser from 'cookie-parser'
+import { errorMiddleware } from './presentation/middlewares/error.middleware'
 
 export const app: Application = express()
 
@@ -17,3 +18,4 @@ app.use('/api', productRouter)
 app.use('/api', cartItemRouter)
 app.use('/api', orderRouter)
 app.use('/api', categoryRouter)
+app.use(errorMiddleware)
