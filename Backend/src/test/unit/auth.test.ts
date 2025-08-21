@@ -3,8 +3,8 @@ import { app } from '../../server'
 import request from 'supertest'
 
 const url = '/api/login'
-const email = 'nicolas@gmail.com'
-const password = '123123123'
+const email = 'nicolasguarachi888@gmail.com'
+const password = 'nicolas_9090'
 const registerUrl = '/api/register'
 
 // test para ruta POST /api/login
