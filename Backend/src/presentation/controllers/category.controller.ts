@@ -3,6 +3,7 @@ import { CategoryUseCase } from '../../application/use-cases/category.usecase'
 import { Request, Response } from 'express'
 import { RequesHttpError } from '../errors/estate-code.error'
 import { categorySchema } from '../validator/category.validator'
+import { errorFormat } from '../../shared/utils/format-error.utils'
 
 const categoryRepo = new PrismaCategoryRepository()
 const categoryUseCase = new CategoryUseCase(categoryRepo)
@@ -40,12 +41,15 @@ export const listAllProductsInCategory = async (req: Request, res: Response) => 
   try {
     const { id_category } = req.params
     if (!id_category) throw new RequesHttpError(400, 'Category ID is required')
-
+    if (id_category === 'null') throw new RequesHttpError(400, 'Category ID cannot be null')
+    if (id_category === 'number') throw new RequesHttpError(400, 'Category ID cannot be a number')
+    
     const productsInCategoty = await categoryUseCase.listAllProductsInCategory(id_category)
     if (!productsInCategoty) throw new RequesHttpError(404, 'Category not found or no products in this category')
 
     return res.status(200).json(productsInCategoty)
   } catch (error) {
+    console.log(errorFormat(error))
     throw new RequesHttpError(400, 'Algo salio mal')
   }
 }
