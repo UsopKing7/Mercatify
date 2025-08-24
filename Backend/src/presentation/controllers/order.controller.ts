@@ -12,6 +12,7 @@ const key = 'orders'
 export const createOrder = async (req: Request, res: Response) => {
   try {
     const { id_user } = req.params
+    if (!id_user) throw new RequesHttpError(400, 'User not found')
 
     await Promise.all([
       redis.del(key)
