@@ -6,7 +6,7 @@ jest.mock('../../shared/constants/redis', () => ({
   redis: { get: jest.fn(), set: jest.fn(), del: jest.fn() }
 }))
 
-const id_user = 'e8f007bc-0cf8-4993-9a44-a576da561cc1'
+// const id_user = 'e8f007bc-0cf8-4993-9a44-a576da561cc1'
 // const url = `/api/create/order/${id_user}`
 
 describe('POST /api/order/:id_user', () => {
