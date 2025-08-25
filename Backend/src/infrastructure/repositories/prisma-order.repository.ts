@@ -19,7 +19,7 @@ export class PrismaOrderRepository implements IOrderRepository {
   async findOrders(id_user: string): Promise<Order[]> {
     const orders = await orderDatabase.findOrders(id_user)
 
-    if (!orders) return []
+    if (!orders) throw new Error('Orders not found')
 
     return orders.map((order: Order) => new Order(
       order.id_order,

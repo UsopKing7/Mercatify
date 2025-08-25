@@ -33,9 +33,12 @@ export const getOrders = async (req: Request, res: Response) => {
   try {
     const { id_user } = req.params
 
+    if (!id_user) throw new RequesHttpError(400, 'User not found')
+    if (id_user.length < 36) throw new RequesHttpError(400, 'User not found')
+
     const cache = await redis.get(key)
     const ordersCache = verifyCache(cache)
-    if (ordersCache !== null) return res.status(200).json(ordersCache)
+    if (ordersCache !== null) return res.status(200).json({ message: 'Orders from cache', orders: ordersCache })
 
     const orders = await orderUseCase.findOrders(id_user)
     const { expire, value } = saveCache(orders)
